@@ -1,30 +1,40 @@
 package main
 
 import (
-    // "log"
-    "os"
-		"strconv"
-		"fmt"
+	// "log"
+	"fmt"
+	"os"
+	"strconv"
 
-
-    "github.com/joho/godotenv"
-		"github.com/go-mail/mail"
-
+	"github.com/go-mail/mail"
+	"github.com/joho/godotenv"
 )
 
+func getEnv(key, fallback string) string {
+	if value, ok := os.LookupEnv(key); ok {
+			return value
+	}
+	return fallback
+}
+
 func main() {
+
+	fmt.Println("Sendgrid keepalive")
+
   err := godotenv.Load()
+
 	if err != nil {
-    panic(err)
+    fmt.Println(".env file not available")
   }
 
-  smtpHost := os.Getenv("SMTP_HOST")
-  smtpUsername := os.Getenv("SMTP_USERNAME")
-	smtpPassword := os.Getenv("SMTP_PASSWORD")
-	smtpFrom := os.Getenv("SMTP_FROM")
-	smtpTo := os.Getenv("SMTP_TO")
+  smtpHost := getEnv("SMTP_HOST", "smtp.sendgrid.net")
+	smtpPortString := getEnv("SMTP_PORT", "587")
+  smtpUsername := getEnv("SMTP_USERNAME", "apikey")
+	smtpPassword := getEnv("SMTP_PASSWORD", "myPassword")
+	smtpFrom := getEnv("SMTP_FROM", "myemail@example.com")
+	smtpTo := getEnv("SMTP_TO", "myemail@example.com")
 
-	smtpPort, err := strconv.Atoi(os.Getenv("SMTP_PORT"))
+	smtpPort, err := strconv.Atoi(smtpPortString)
 
 	if err != nil {
     panic(err)
