@@ -21,11 +21,7 @@ func main() {
 
 	fmt.Println("Sendgrid keepalive")
 
-  err := godotenv.Load()
-
-	if err != nil {
-    fmt.Println(".env file not available")
-  }
+  godotenv.Load()
 
   smtpHost := getEnv("SMTP_HOST", "smtp.sendgrid.net")
 	smtpPortString := getEnv("SMTP_PORT", "587")
