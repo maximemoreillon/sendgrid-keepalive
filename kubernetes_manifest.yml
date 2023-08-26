@@ -8,10 +8,10 @@ spec:
     spec:
       template:
         spec:
+          restartPolicy: OnFailure
           containers:
             - name: ${APPLICATION_NAME}
               image: ${CONTAINER_IMAGE_TAGGED}
-          envFrom:
-            - secretRef:
-                name: sendgrid-keepalive-env
-          restartPolicy: OnFailure
+              envFrom:
+                - secretRef:
+                    name: sendgrid-keepalive-env
